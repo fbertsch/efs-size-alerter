@@ -2,7 +2,6 @@ from __future__ import division
 
 import os
 import argparse
-import math
 
 from mail import send_ses
 
