@@ -112,6 +112,7 @@ def _get_dir_size(directory):
 
 
 def _email_about_users(invalid_users, max_size, from_email, to_email, dry_run):
+    '''Emails the list of users who are exceeding quota'''
     email_body = '\n'.join(('{}: {}, Quota: {}'.format(directory, 
                                                        _get_readable_size(size), 
                                                        _get_readable_size(max_size))
