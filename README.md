@@ -12,9 +12,13 @@ check-size --efs-name ATMO-prod --max-size 2048 --from-email from@moz --to-email
 ```
 
 This would:
+
 1. Check if the EFS File System size exceeds 2KB, and email `to@moz` from `from@moz` if so
+
 2. Assumes the file system is mounted at `/Users/frankbertsch/repos/sandbox/test`
+
 3. Checks for any user accounts at 1 level deep, and if they exceed 100B, emails the User from `from@moz`
+
 4. Emails  `to@moz` from `from@moz` about all user accounts that exceed the quota of 100B
 
 ## Testing
