@@ -7,5 +7,5 @@ setup(name='EFS-Size-Alerter',
       description='Email User\'s when their EFS directories exceed a quota',
       url='https://github.com/fbertsch/efs-size-alerter',
       packages=['alert'],
-      install_requires=['boto'],
+      install_requires=['boto', 'boto3'],
       scripts=['check-size'])
