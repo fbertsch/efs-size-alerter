@@ -6,7 +6,7 @@ from alert.size import run_checks
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='EFS Metered Size Alert System',
-                                    formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     parser.add_argument('--efs-name', type=str, required=True,
                         help='Name of EFS file system to check')
@@ -21,7 +21,7 @@ if __name__ == '__main__':
                         help='Email address to send emails to')
 
     parser.add_argument('--efs-dir', type=str, default=None,
-                        help='Local directory in which to check sizes (should be where EFS is mounted)')
+                        help='Local directory where EFS is mounted')
 
     parser.add_argument('--max-user-size', type=int, default=1024*1024*1024,
                         help='Maximum allowed size of a directory, in Bytes')
@@ -37,12 +37,12 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    run_checks(args.efs_name, 
-                args.max_size,
-                args.from_email, 
-                args.to_email,
-                args.efs_dir, 
-                args.user_dir_depth, 
-                args.max_user_size, 
-                args.email_users,
-                args.dry_run)
+    run_checks(args.efs_name,
+               args.max_size,
+               args.from_email,
+               args.to_email,
+               args.efs_dir,
+               args.user_dir_depth,
+               args.max_user_size,
+               args.email_users,
+               args.dry_run)

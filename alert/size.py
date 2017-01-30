@@ -1,7 +1,6 @@
 from __future__ import division
 
 import os
-import argparse
 import boto3
 
 from mail import send_ses
@@ -15,13 +14,13 @@ EMAIL_SUBJECT_USER_LIST = 'List of Users Exceeding EFS Quota'
 
 USER_EMAIL_SUBJECT = 'EFS Directory Too Large!'
 USER_EMAIL_BODY = ('Attention, your EFS directory has exceeded the allowed quota. '
-              'You are allowed {}, but have stored {}. '
-              'Please remove at least {}, or we will have to remove your account.')
+                   'You are allowed {}, but have stored {}. '
+                   'Please remove at least {}, or we will have to remove your account.')
 
 
 def run_checks(efs_name, max_efs_size, from_email, to_email,
-                directory=None, user_depth=1, user_max_size=1024*1024*1024,
-                email_users=False, dry_run=False):
+               directory=None, user_depth=1, user_max_size=1024*1024*1024,
+               email_users=False, dry_run=False):
     '''Run checks on sizes for EFS file system. First checks the total size, if it exceeds
        some threshold, then optionally checks each user's dir to see if it is exceeding a quota.
 
@@ -31,7 +30,7 @@ def run_checks(efs_name, max_efs_size, from_email, to_email,
        param max_efs_size: The max allowed size of the file system
        param from_email: Email address alert emails are sent from
        param to_email: Email address alert emails are sent to
-       param directory: Local path to the directory where this EFS file system is mounted (default None)
+       param directory: Local path to where this EFS file system is mounted (default None)
        param user_depth: Depth of user directories from mounted directory (default 1)
        param user_max_size: Max size of a user directory (default 1 GB)
        param email_user: Boolean, whether to email users about size violations (default False)
@@ -43,7 +42,8 @@ def run_checks(efs_name, max_efs_size, from_email, to_email,
         _email_size_too_large(from_email, to_email, efs_name, efs_size, max_efs_size, dry_run)
 
     if directory:
-        _check_user_sizes(directory, user_depth, user_max_size, from_email, to_email, email_users, dry_run)
+        _check_user_sizes(directory, user_depth, user_max_size, from_email,
+                          to_email, email_users, dry_run)
 
 
 ###### Private Functions #######
@@ -57,7 +57,7 @@ def _get_efs_size(efs_name):
     file_systems = response['FileSystems']
     file_system = filter(lambda x: x['Name'] == efs_name, file_systems)
 
-    #TODO: deal with non-unique fs names
+    # TODO: deal with non-unique fs names
     return file_system[0]['SizeInBytes']['Value']
 
 
@@ -113,8 +113,8 @@ def _get_dir_size(directory):
 
 def _email_about_users(invalid_users, max_size, from_email, to_email, dry_run):
     '''Emails the list of users who are exceeding quota'''
-    email_body = '\n'.join(('{}: {}, Quota: {}'.format(directory, 
-                                                       _get_readable_size(size), 
+    email_body = '\n'.join(('{}: {}, Quota: {}'.format(directory,
+                                                       _get_readable_size(size),
                                                        _get_readable_size(max_size))
                             for directory, size, max_size in invalid_users))
     if dry_run:
@@ -142,7 +142,7 @@ def _email_users(invalid_users, max_size, from_email, to_email, dry_run):
 
 def _get_readable_size(size_in_bytes, rounding=1):
     '''Max out at 1024YB (future proof! Get at me, EFS!)'''
-    for unit in ['','K','M','G','T','P','E','Z','Y']:
+    for unit in ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']:
         if abs(size_in_bytes) < 1024:
             return '{}{}{}'.format(round(size_in_bytes, rounding), unit, 'B')
         size_in_bytes /= 1024
