@@ -19,7 +19,7 @@ USER_EMAIL_BODY = ('Attention, your EFS directory has exceeded the allowed quota
 
 
 def run_checks(efs_name, max_efs_size, from_email, to_email,
-               directory=None, user_depth=1, user_max_size=1024*1024*1024,
+               directory=None, user_depth=1, user_max_size=None,
                email_users=False, dry_run=False):
     '''Run checks on sizes for EFS file system. First checks the total size, if it exceeds
        some threshold, then optionally checks each user's dir to see if it is exceeding a quota.
@@ -30,12 +30,15 @@ def run_checks(efs_name, max_efs_size, from_email, to_email,
        param max_efs_size: The max allowed size of the file system
        param from_email: Email address alert emails are sent from
        param to_email: Email address alert emails are sent to
-       param directory: Local path to where this EFS file system is mounted (default None)
-       param user_depth: Depth of user directories from mounted directory (default 1)
-       param user_max_size: Max size of a user directory (default 1 GB)
-       param email_user: Boolean, whether to email users about size violations (default False)
-       param dry_run: If True, email will not be sent, but printed to the screen instead
+       param directory: Local path to where this EFS file system is mounted (default: None)
+       param user_depth: Depth of user directories from mounted directory (default: 1)
+       param user_max_size: Max size of a user directory (default: max_efs_size)
+       param email_user: Boolean, whether to email users about size violations (default: False)
+       param dry_run: If True, email will not be sent, but printed to the screen (default: False)
     '''
+    if user_max_size is None:
+        user_max_size = max_efs_size
+
     efs_size = _get_efs_size(efs_name)
 
     if efs_size > max_efs_size:

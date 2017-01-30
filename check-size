@@ -23,8 +23,9 @@ if __name__ == '__main__':
     parser.add_argument('--efs-dir', type=str, default=None,
                         help='Local directory where EFS is mounted')
 
-    parser.add_argument('--max-user-size', type=int, default=1024*1024*1024,
-                        help='Maximum allowed size of a directory, in Bytes')
+    parser.add_argument('--max-user-size', type=int, default=None,
+                        help=('Maximum allowed size of a directory, in Bytes. '
+                              'If None, reverts to MAX_SIZE'))
 
     parser.add_argument('---user-dir-depth', '-d', type=int, default=1,
                         help='Directories at this depth from `EFS-Directory` will be checked')
