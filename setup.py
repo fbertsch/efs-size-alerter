@@ -1,7 +1,7 @@
 from setuptools import setup
 
-setup(name='EFS-Size-Alerter',
-      version='0.0.1',
+setup(name='efs-size-alerter',
+      version='0.0.2',
       author='Frank Bertsch',
       author_email='fbertsch@mozilla.com',
       description='Email User\'s when their EFS directories exceed a quota',
