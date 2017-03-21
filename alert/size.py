@@ -57,7 +57,7 @@ def _get_efs_size(efs_name):
     client = boto3.client('efs')
     response = client.describe_file_systems()
 
-    file_systems = response['FileSystems']
+    file_systems = filter(lambda x: 'Name' in x, response['FileSystems'])
     file_system = filter(lambda x: x['Name'] == efs_name, file_systems)
 
     # TODO: deal with non-unique fs names
