@@ -15,11 +15,26 @@ This would:
 
 1. Check if the EFS File System size exceeds 2KB, and email `to@moz` from `from@moz` if so
 
-2. Assumes the file system is mounted at `/Users/frankbertsch/repos/sandbox/test`
+2. Assume the file system is mounted at `/Users/frankbertsch/repos/sandbox/test`
 
-3. Checks for any user accounts at 1 level deep, and if they exceed 100B, emails the User from `from@moz`
+3. Check for any user accounts at 1 level deep, and if they exceed 100B, emails the User from `from@moz`
+Note: This assumes the directory name is the user email
 
-4. Emails  `to@moz` from `from@moz` about all user accounts that exceed the quota of 100B
+4. Email  `to@moz` from `from@moz` about all user accounts that exceed the quota of 100B
+
+## Common Issues
+
+### No Region Specified
+
+The error `botocore.exceptions.NoRegionError: You must specify a region.` can be resolved by running the following:
+
+```bash
+export AWS_DEFAULT_REGION=us-west-2
+```
+
+### Access Denied Exception
+
+The resource you are running this on (ec2, presumably) needs access to the EFS resource. Create a policy with `DescribeFileSystems` access and attach it to the ARN or role of the instance you are running on.
 
 ## Testing
 
