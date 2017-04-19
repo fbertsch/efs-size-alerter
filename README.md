@@ -38,4 +38,4 @@ The resource you are running this on (ec2, presumably) needs access to the EFS r
 
 ## Testing
 
-We recommend running with `--dry-run` to print out emails that would be sent.
+Run with `--dry-run` to print out emails that would be sent.
